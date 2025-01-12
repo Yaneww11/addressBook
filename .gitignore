@@ -1,4 +1,28 @@
-.venv
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Database files
+*.sqlite3
+db.sqlite3
+
+# Log files
+*.log
+
+# Ignore all migrations
+*/migrations/*
+
+# User-specific files
+*.DS_Store
+
+/static/
+*.static
+
 .idea/
 media/
 .env
