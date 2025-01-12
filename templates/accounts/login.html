@@ -1,34 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Address Book</title>
-    <link rel="stylesheet" href="../AddressBook/static/styles/styles.css">
-</head>
-<body>
-<div class="container">
-    <div class="form-container">
-        <h1>Login to Address Book</h1>
-        <form action="#" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+{% endblock %}
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+{% block content %}
+    <div class="container">
+        <div class="form-container">
+            <h1>Login to Address Book</h1>
+            <form action="#" method="post">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter Username" required>
 
-            <button type="submit">Login</button>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
 
-            <div class="link-container">
-                <a href="change-password.html">Forgotten password?</a>
-                <div>
-                    <a href="register.html">Don't have an account? Register now!</a>
+                <button type="submit">Login</button>
+
+                <div class="link-container">
+                    <a href="change-password.html">Forgotten password?</a>
+                    <div>
+                        <a href="register.html">Don't have an account? Register now!</a>
+                    </div>
+
                 </div>
-
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-</body>
-</html>
+{% endblock %}

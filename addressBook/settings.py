@@ -45,8 +45,7 @@ INSTALLED_APPS = [
 
     'addressBook.main_app.apps.MainAppConfig',
     'addressBook.users.apps.UsersConfig',
-    'addressBook.contacts.apps.ContactsConfig',
-    'addressBook.labels.apps.LabelsConfig'
+    'addressBook.contacts.apps.ContactsConfig'
 ]
 
 MIDDLEWARE = [
