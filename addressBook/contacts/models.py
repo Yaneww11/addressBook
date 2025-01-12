@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 class Contact(models.Model):
@@ -30,7 +31,8 @@ class Contact(models.Model):
 
     email = models.EmailField(
         blank=True,
-        null=True
+        null=True,
+        help_text='Enter a valid email address',
     )
 
     fax_number = models.CharField(
@@ -40,9 +42,17 @@ class Contact(models.Model):
     )
 
     phone_number = models.CharField(
-        max_length=10,
+        max_length=15,
         blank=True,
-        null=True
+        null=True,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r'^(\+359|0)?8[789]\d{7}$',
+                message='Please correct valid phone number'
+            )
+        ],
+        help_text='089999999',
     )
 
     comment = models.TextField(
