@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <div class="container">
         <!-- If the user is Not authenticated -->
@@ -13,9 +14,9 @@
     <!--        </div>-->
             <!-- If the user is authenticated -->
             <div class="auth-links">
-                <a href="profile.html">Profile</a>
+                <a href="accounts/profile.html">Profile</a>
                 <a href="address-book.html">Address Book</a>
-                <a href="logout.html">Logout</a>
+                <a href="accounts/logout.html">Logout</a>
             </div>
         </div>
     </div>
