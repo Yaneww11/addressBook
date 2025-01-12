@@ -1,59 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Existing Labels - Address Book</title>
-    <link rel="stylesheet" href="../AddressBook/static/styles/styles.css">
-    <script src="https://kit.fontawesome.com/64727f0e11.js" crossorigin="anonymous"></script>
-</head>
-<body>
-<header class="navbar">
-    <a href="../index.html">Homepage</a>
-    <a href="../accounts/profile.html">Profile</a>
-    <a href="../address-book.html">Address Book</a>
-</header>
-<div class="label-container container">
-    <h1>Manage Labels</h1>
-    <div class="labels-list">
-        <h2>Existing Labels</h2>
-        <ul>
-            <li class="label-item">
-                <span class="color-label" style="background-color: #ff6b6b;">Important</span>
-                <div class="label-action-buttons">
-                    <a href="edit-label.html" class="edit-btn">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a href="delete-label.html" class="delete-btn">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-            </li>
-            <li class="label-item">
-                <span class="color-label" style="background-color: #6bc1ff;">Work</span>
-                <div class="label-action-buttons">
-                    <a href="edit-label.html" class="edit-btn">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a href="delete-label.html" class="delete-btn">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-            </li>
-            <li class="label-item">
-                <span class="color-label" style="background-color: #6bff89;">Family</span>
-                <div class="label-action-buttons">
-                    <a href="edit-label.html" class="edit-btn">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a href="delete-label.html" class="delete-btn">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-            </li>
-        </ul>
-        <a href="create-label.html" class="create-label-btn">+ Create Label</a>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="label-container container">
+        <h1>Manage Labels</h1>
+        <div class="labels-list">
+            <h2>Existing Labels</h2>
+            <ul>
+                <li class="label-item">
+                    <span class="color-label" style="background-color: #ff6b6b;">Important</span>
+                    <div class="label-action-buttons">
+                        <a href="edit-label.html" class="edit-btn">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="delete-label.html" class="delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </li>
+                <li class="label-item">
+                    <span class="color-label" style="background-color: #6bc1ff;">Work</span>
+                    <div class="label-action-buttons">
+                        <a href="edit-label.html" class="edit-btn">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="delete-label.html" class="delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </li>
+                <li class="label-item">
+                    <span class="color-label" style="background-color: #6bff89;">Family</span>
+                    <div class="label-action-buttons">
+                        <a href="edit-label.html" class="edit-btn">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="delete-label.html" class="delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <a href="create-label.html" class="create-label-btn">+ Create Label</a>
+        </div>
     </div>
-</div>
-</body>
-</html>
+{% endblock %}
