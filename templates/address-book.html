@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Book</title>
+    <link rel="stylesheet" href="../AddressBook/static/styles/styles.css">
+</head>
+<body>
+<div class="wrapper">
+    <header class="navbar">
+        <a href="index.html">Homepage</a>
+        <a href="accounts/profile.html">Profile</a>
+        <a href="labels/labels.html">Labels</a>
+    </header>
+    <main class="address-book-container">
+        <div class="address-book-header">
+            <h1>Your Address Book</h1>
+            <div class="actions">
+                <div class="search-bar-sorting">
+                    <input type="text" placeholder="Search contacts..." id="search-bar">
+                    <select id="sort-options" class="sort-dropdown">
+                        <option value="a-z">Sort: A-Z</option>
+                        <option value="z-a">Sort: Z-A</option>
+                    </select>
+                </div>
+                <a href="contacts/create-contact.html" class="add-contact-btn">+ Add Contact</a>
+
+            </div>
+        </div>
+        <ul class="contact-list">
+            <li class="contact-item">
+                <a href="contacts/contact-details.html">
+                    <div class="contact-card">
+                        <div class="contact-left">
+                            <img src="images/profile-pic-1.jpeg" alt="Contact Picture" class="contact-picture">
+                            <h2>Jane Doe</h2>
+                        </div>
+                        <p class="contact-phone">0897654321</p>
+                    </div>
+                </a>
+            </li>
+            <li class="contact-item">
+                <a href="contacts/contact-details.html">
+                    <div class="contact-card">
+                        <div class="contact-left">
+                            <img src="images/profile-pic-1.jpeg" alt="Contact Picture" class="contact-picture">
+                            <h2>John Smith</h2>
+                        </div>
+                        <p class="contact-phone">0891234567</p>
+                    </div>
+                </a>
+            </li>
+            <!-- Add more contacts similarly -->
+        </ul>
+
+        <!-- Paginator -->
+        <div class="paginator">
+            <a href="#" class="paginator-btn previous">Previous</a>
+            <a href="#" class="paginator-page active">1</a>
+            <a href="#" class="paginator-btn next">Next</a>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

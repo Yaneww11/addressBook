@@ -1,0 +1,42 @@
+.label-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.delete-label-heading {
+    color: #ff6b6b;
+}
+
+p {
+    font-size: 1rem;
+    margin: 1rem 0;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+a.confirm-btn {
+    background-color: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+a.cancel-btn-green {
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+}

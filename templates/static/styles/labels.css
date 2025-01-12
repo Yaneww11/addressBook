@@ -1,0 +1,68 @@
+.label-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: auto;
+}
+
+h1, h2 {
+    color: #357abd;
+    text-align: center;
+}
+
+.labels-list {
+    width: 95%;
+}
+
+.labels-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.label-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.color-label {
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.edit-btn, .delete-btn, .create-label-btn {
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.edit-btn {
+    background-color: #6bc1ff;
+}
+
+.delete-btn {
+    background-color: #ff6b6b;
+}
+
+.create-label-btn {
+    display: block;
+    text-align: center;
+    background-color: #4caf50;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
