@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    {% block navbar %}
+        <header class="navbar">
+            <a href="index.html">Homepage</a>
+            <a href="accounts/profile.html">Profile</a>
+            <a href="address-book.html">Address Book</a>
+        </header>
+    {% endblock %}
     {% block content %}
 
     {% endblock %}
