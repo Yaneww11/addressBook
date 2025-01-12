@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout - Address Book</title>
-    <link rel="stylesheet" href="../AddressBook/static/styles/styles.css">
-</head>
-<body>
-<div class="container">
-    <div class="form-container">
-        <h1>Logout</h1>
-        <p>Are you sure you want to log out?</p>
-        <form action="#" method="post">
-            <button type="submit">Logout</button>
-            <div class="link-container">
-                <a href="profile.html">Cancel</a>
-            </div>
-        </form>
-    </div>
-</div>
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <div class="form-container">
+            <h1>Logout</h1>
+            <p>Are you sure you want to log out?</p>
+            <form action="#" method="post">
+                <button type="submit">Logout</button>
+                <div class="link-container">
+                    <a href="profile.html">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
