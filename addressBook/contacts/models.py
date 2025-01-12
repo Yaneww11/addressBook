@@ -60,5 +60,11 @@ class Contact(models.Model):
         null=True
     )
 
+    profile = models.ForeignKey(
+        'users.Profile',
+        on_delete=models.CASCADE,
+        related_name='contacts'
+    )
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
