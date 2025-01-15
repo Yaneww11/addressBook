@@ -1,6 +1,9 @@
 from django.core.validators import RegexValidator
 from django.db import models
 
+from addressBook import settings
+
+
 class Contact(models.Model):
     first_name = models.CharField(
         max_length=255
@@ -60,8 +63,8 @@ class Contact(models.Model):
         null=True
     )
 
-    profile = models.ForeignKey(
-        'users.Profile',
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='contacts'
     )

@@ -1,5 +1,8 @@
 from django.db import models
 
+from addressBook import settings
+
+
 class Label(models.Model):
     name = models.CharField(
         max_length=100,
@@ -8,8 +11,8 @@ class Label(models.Model):
 
     color = models.CharField(max_length=100)
 
-    profile = models.ForeignKey(
-        'users.Profile',
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='labels'
     )
