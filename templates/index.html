@@ -5,22 +5,20 @@
 
 {% block content %}
     <div class="container">
-        <!-- If the user is Not authenticated -->
-    <!--    <h1 class="welcome-msg">Welcome to Address Book</h1>-->
-        <!-- If the user is authenticated -->
-        <h1 class="welcome-msg">Welcome to your Address Book, <span>Steven</span></h1>
-        <div class="links-container">
-            <!-- If the user is NOT authenticated -->
-    <!--        <div class="auth-links">-->
-    <!--            <a href="login.html">Login</a>-->
-    <!--            <a href="register.html">Register</a>-->
-    <!--        </div>-->
-            <!-- If the user is authenticated -->
+        <!-- If the user is NOT authenticated -->
+        {% if not request.user.is_authenticated %}
+            <h1 class="welcome-msg">Welcome to Address Book</h1>
             <div class="auth-links">
-                <a href="accounts/profile.html">Profile</a>
-                <a href="{% url 'address-book' %}">Address Book</a>
-                <a href="accounts/logout.html">Logout</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
             </div>
-        </div>
+        {% else %}
+            <h1 class="welcome-msg">Welcome to your Address Book, <span>{{ user.username }}</span></h1>
+            <div class="auth-links">
+                <a href="{% url 'profile' %}">Profile</a>
+                <a href="{% url 'address-book' %}">Address Book</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -8,9 +8,12 @@
         <div class="form-container">
             <h1>Login to Address Book</h1>
             <form method="post">
-                {{ form.errors }}
                 {% csrf_token %}
-                <label for="username">Username</label>
+                <div class="errors">
+                    {{ form.errors }}
+                </div>
+
+                <label for="username">Username or Email</label>
                 {{ form.username }}
 
                 <label for="password">Password</label>
@@ -23,10 +26,8 @@
                     <div>
                         <a href="{% url 'register' %}">Don't have an account? Register now!</a>
                     </div>
-
                 </div>
             </form>
         </div>
     </div>
-
 {% endblock %}
