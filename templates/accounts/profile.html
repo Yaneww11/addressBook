@@ -5,48 +5,53 @@
         <div class="profile-card">
             <div class="profile-header">
                 <div class="profile-picture">
-                    <img src="images/profile-pic-1.jpeg" alt="Profile Picture">
+                    {% if user.profile.profile_picture %}
+                        <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture">
+                    {% else %}
+                        <img src="/media/default-images/default-profile-image.png" alt="Profile Picture">
+                    {% endif %}
                 </div>
-                <h1>Steven Smith</h1>
-                <p class="username">@stevensmith</p>
+
+                <h1>{{ user.get_full_name }}</h1>
+                <p class="username">{{ user.username }}</p>
             </div>
             <div class="profile-info">
                 <h2>Profile Details</h2>
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="label">First Name:</span>
-                        <span class="value">Steven</span>
+                        <span class="value">{{ user.first_name }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Last Name:</span>
-                        <span class="value">Smith</span>
+                        <span class="value">{{ user.last_name }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Email:</span>
-                        <span class="value">steven@example.com</span>
+                        <span class="value">{{ user.email }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Phone Number:</span>
-                        <span class="value">0895328712</span>
+                        <span class="value">{{ user.profile.phone_number }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Number of Contacts:</span>
-                        <span class="value">23</span>
+                        <span class="value">{{ contact_count }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Member Since:</span>
-                        <span class="value">12th January 2024</span>
+                        <span class="value">{{ user.date_joined }}</span>
                     </div>
                 </div>
             </div>
             <div class="profile-actions">
                 <a href="../address-book.html" class="address-book">Address Book</a>
-                <a href="edit-profile.html" class="edit">Edit Profile</a>
-                <a href="change-password.html" class="change-password">Change Password</a>
+                <a href="{% url 'edit-profile' %}" class="edit">Edit Profile</a>
+                <a href="{% url 'change-password' %}" class="change-password">Change Password</a>
                 <a href="delete-profile.html" class="delete">Delete Account</a>
             </div>
             <div class="back-home">
-                <a href="../index.html">Back to Homepage</a>
+                <a href="{% url 'home' %}">Back to Homepage</a>
             </div>
         </div>
     </div>

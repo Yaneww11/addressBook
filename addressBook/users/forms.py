@@ -1,7 +1,10 @@
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm
 from django.forms import TextInput, EmailInput
+from django.core.exceptions import ValidationError
+
+from addressBook.users.models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
@@ -77,3 +80,53 @@ class UserLoginForm(AuthenticationForm):
             self.confirm_login_allowed(self.user_cache)
 
         return self.cleaned_data
+
+
+class CustomPasswordResetForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Enter new password'
+            }
+        )
+    )
+
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Confirm new password'
+            }
+        )
+    )
+
+
+class UserProfileEditForm(forms.ModelForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your username'})
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'Enter your email'})
+    )
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your first name'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your last name'})
+    )
+
+    class Meta:
+        model = Profile
+        fields = ['profile_picture', 'phone_number']
+        widgets = {
+            'profile_picture': forms.ClearableFileInput(),
+            'phone_number': forms.TextInput(
+                attrs={'placeholder': 'Enter your phone number', 'required': False}
+            ),
+        }
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        user_model = get_user_model()
+        if user_model.objects.filter(username=username).exclude(id=self.instance.user.id).exists():
+            raise ValidationError("This username is already taken.")
+        return username

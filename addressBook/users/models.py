@@ -19,6 +19,9 @@ class AppUser(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Profile(models.Model):
     user = models.OneToOneField(
