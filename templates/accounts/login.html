@@ -9,20 +9,23 @@
             <h1>Login to Address Book</h1>
             <form method="post">
                 {% csrf_token %}
-                <div class="errors">
-                    {{ form.errors }}
-                </div>
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="error">{{ field.errors }}</div>
+                {% endfor %}
 
-                <label for="username">Username or Email</label>
-                {{ form.username }}
-
-                <label for="password">Password</label>
-                {{ form.password }}
+                {% if form.non_field_errors %}
+                    <div class="error">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
                 <button type="submit">Login</button>
 
                 <div class="link-container">
-                    <a href="change-password.html">Forgotten password?</a>
                     <div>
                         <a href="{% url 'register' %}">Don't have an account? Register now!</a>
                     </div>

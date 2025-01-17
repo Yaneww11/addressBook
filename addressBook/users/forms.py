@@ -64,6 +64,10 @@ class UserLoginForm(AuthenticationForm):
         })
     )
 
+    labels = [
+
+    ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -88,7 +92,8 @@ class CustomPasswordResetForm(SetPasswordForm):
             attrs={
                 'placeholder': 'Enter new password'
             }
-        )
+        ),
+        label='New Password'
     )
 
     new_password2 = forms.CharField(
@@ -96,7 +101,8 @@ class CustomPasswordResetForm(SetPasswordForm):
             attrs={
                 'placeholder': 'Confirm new password'
             }
-        )
+        ),
+        label='Confirm New Password'
     )
 
 
@@ -122,6 +128,18 @@ class UserProfileEditForm(forms.ModelForm):
             'phone_number': forms.TextInput(
                 attrs={'placeholder': 'Enter your phone number', 'required': False}
             ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Reorder fields here
+        self.fields = {
+            'username': self.fields['username'],
+            'email': self.fields['email'],
+            'first_name': self.fields['first_name'],
+            'last_name': self.fields['last_name'],
+            'phone_number': self.fields['phone_number'],
+            'profile_picture': self.fields['profile_picture'],
         }
 
     def clean_username(self):

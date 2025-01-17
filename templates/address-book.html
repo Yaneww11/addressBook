@@ -11,25 +11,45 @@
                             <option value="a-z">Sort: A-Z</option>
                             <option value="z-a">Sort: Z-A</option>
                         </select>
+                        <select id="filter-options" class="sort-dropdown">
+                            <option value="all">All</option>
+                            <!-- Populate the rest of the options with all available labels -->
+                            <option value="important">Important</option>
+                            <option value="work">Work</option>
+                            <option value="family">Family</option>
+                            <option value="friends">Friends</option>
+                        </select>
                     </div>
-                    <a href="contacts/create-contact.html" class="add-contact-btn">+ Add Contact</a>
+                    <a href="create-contact.html" class="add-contact-btn">+ Add Contact</a>
 
                 </div>
             </div>
             <ul class="contact-list">
                 <li class="contact-item">
-                    <a href="contacts/contact-details.html">
+                    <a href="contact-details.html">
                         <div class="contact-card">
                             <div class="contact-left">
                                 <img src="images/profile-pic-1.jpeg" alt="Contact Picture" class="contact-picture">
-                                <h2>Jane Doe</h2>
+                                <div class="contact-name-labels">
+                                    <h2>Jane Doe</h2>
+                                    <!-- if contact has labels display this block -->
+                                    <div class="book-labels">
+                                        <!--    - Get contact labels
+                                                - Display first label
+                                                - if (labelsAmount > 1 display) "+X more labels" span
+                                                - // X = labelsAmount - 1 -->
+                                        <span class="book-label" style="background-color: #ff6b6b;">Important</span>
+                                        <span class="book-label"
+                                              style="background-color: #646464;"> +2 more labels</span>
+                                    </div>
+                                </div>
                             </div>
                             <p class="contact-phone">0897654321</p>
                         </div>
                     </a>
                 </li>
                 <li class="contact-item">
-                    <a href="contacts/contact-details.html">
+                    <a href="contact-details.html">
                         <div class="contact-card">
                             <div class="contact-left">
                                 <img src="images/profile-pic-1.jpeg" alt="Contact Picture" class="contact-picture">

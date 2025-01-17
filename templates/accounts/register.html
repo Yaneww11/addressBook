@@ -9,24 +9,19 @@
             <h1>Create an Account</h1>
             <form method="post">
                 {% csrf_token %}
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="error">{{ field.errors }}</div>
+                {% endfor %}
 
-                <label for="username">Username</label>
-                {{ form.username }}
-
-                <label for="email">Email</label>
-                {{ form.email }}
-
-                <label for="first_name">First Name</label>
-                {{ form.first_name }}
-
-                <label for="last_name">Last Name</label>
-                {{ form.last_name }}
-
-                <label for="password1">Password</label>
-                {{ form.password1 }}
-
-                <label for="password2">Confirm Password</label>
-                {{ form.password2 }}
+                {% if form.non_field_errors %}
+                    <div class="error">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
                 <button type="submit">Register</button>
 
