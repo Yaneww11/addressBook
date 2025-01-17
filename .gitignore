@@ -20,9 +20,5 @@ db.sqlite3
 # User-specific files
 *.DS_Store
 
-/static/
-*.static
-
 .idea/
-media/
 .env
