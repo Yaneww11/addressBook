@@ -4,10 +4,13 @@
 {% block content %}
     <div class="label-container container">
         <h1 class="delete-label-heading">Delete Label</h1>
-        <p>Are you sure you want to delete the label <strong>"Important"</strong>?</p>
+        <p>Are you sure you want to delete the label <strong>{{ label.name }}</strong>?</p>
         <div class="action-buttons">
-            <a href="labels.html" class="confirm-btn">Yes, Delete</a>
-            <a href="labels.html" class="cancel-btn-green">Cancel</a>
+            <form action="{% url 'delete-label' label.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="confirm-btn">Yes, Delete</button>
+            </form>
+            <a href="{% url 'labels-list' %}" class="cancel-btn-green">Cancel</a>
         </div>
     </div>
 {% endblock %}

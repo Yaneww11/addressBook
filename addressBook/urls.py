@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('addressBook.main_app.urls')),
     path('users/', include('addressBook.users.urls')),
+    path('labels/', include('addressBook.labels.urls'))
 ]
 
 if settings.DEBUG:

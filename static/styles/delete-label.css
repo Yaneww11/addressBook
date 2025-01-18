@@ -23,7 +23,7 @@ p {
     gap: 1rem;
 }
 
-a.confirm-btn {
+.confirm-btn {
     background-color: #ff6b6b;
     color: white;
     text-decoration: none;
@@ -33,6 +33,8 @@ a.confirm-btn {
 }
 
 a.cancel-btn-green {
+    display: flex;
+    align-items: center;
     background-color: #4caf50;
     color: white;
     text-decoration: none;

@@ -7,41 +7,21 @@
         <div class="labels-list">
             <h2>Existing Labels</h2>
             <ul>
-                <li class="label-item">
-                    <span class="color-label" style="background-color: #ff6b6b;">Important</span>
-                    <div class="label-action-buttons">
-                        <a href="edit-label.html" class="edit-btn">
-                            <i class="fas fa-pen"></i>
-                        </a>
-                        <a href="delete-label.html" class="delete-btn">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </div>
-                </li>
-                <li class="label-item">
-                    <span class="color-label" style="background-color: #6bc1ff;">Work</span>
-                    <div class="label-action-buttons">
-                        <a href="edit-label.html" class="edit-btn">
-                            <i class="fas fa-pen"></i>
-                        </a>
-                        <a href="delete-label.html" class="delete-btn">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </div>
-                </li>
-                <li class="label-item">
-                    <span class="color-label" style="background-color: #6bff89;">Family</span>
-                    <div class="label-action-buttons">
-                        <a href="edit-label.html" class="edit-btn">
-                            <i class="fas fa-pen"></i>
-                        </a>
-                        <a href="delete-label.html" class="delete-btn">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </div>
-                </li>
+                {% for label in labels %}
+                    <li class="label-item">
+                        <span class="color-label" style="background-color: {{ label.color }};">{{ label.name }}</span>
+                        <div class="label-action-buttons">
+                            <a href="{% url 'edit-label' label.pk %}" class="edit-btn">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{% url 'delete-label' label.pk %}" class="delete-btn">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
             </ul>
-            <a href="create-label.html" class="create-label-btn">+ Create Label</a>
+            <a href="{% url 'create-label' %}" class="create-label-btn">+ Create Label</a>
         </div>
     </div>
 {% endblock %}
