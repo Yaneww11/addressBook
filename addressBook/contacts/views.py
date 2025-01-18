@@ -12,7 +12,7 @@ from addressBook.labels.models import Label
 
 # Create your views here.
 class ContactListView(LoginRequiredMixin, ListView):
-    model =  Contact
+    model = Contact
     template_name = "address-book.html"
     context_object_name = "contacts"
     paginate_by = 2
@@ -24,6 +24,7 @@ class ContactListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['user_labels'] = Label.objects.all()
         return context
+
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
     model = Contact
@@ -70,6 +71,7 @@ class ContactEditView(LoginRequiredMixin, UpdateView):
             form.add_error(None, "A contact with this name already exists.")
             return self.form_invalid(form)
 
+
 class ContactDeleteView(LoginRequiredMixin, DeleteView):
     model = Contact
     template_name = 'contacts/delete-contact.html'
@@ -85,6 +87,7 @@ class ContactDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Contact, pk=self.kwargs['pk'])
+
 
 class ContactDetailView(LoginRequiredMixin, DetailView):
     model = Contact

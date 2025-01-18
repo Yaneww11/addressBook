@@ -3,65 +3,72 @@
 
 {% block content %}
     <main class="contact-details-container">
-        <h1>{{ contact.first_name }}'s Details</h1>
+        <h1>{{ contact }}'s Details</h1>
 
         <!-- Display Contact Information -->
         <div class="contact-info">
             <div class="contact-header">
                 <img src="{{ contact.image.url }}" alt="Contact Image" class="contact-image">
             </div>
+
             <div class="contact-fields">
-                {% if contact.last_name %}
                 <div class="contact-field">
-                    <strong>Last Name:</strong>
-                    <span id="contact-last-name">{{ contact.last_name }}</span>
+                    <strong>First Name:</strong>
+                    <span id="contact-last-name">{{ contact.first_name }}</span>
                 </div>
+
+                {% if contact.last_name %}
+                    <div class="contact-field">
+                        <strong>Last Name:</strong>
+                        <span id="contact-last-name">{{ contact.last_name }}</span>
+                    </div>
                 {% endif %}
+
+                <div class="contact-field">
+                    <strong>Phone Number:</strong>
+                    <span id="contact-phone">{{ contact.phone_number }}</span>
+                </div>
 
                 {% if contact.company_name %}
-                <div class="contact-field">
-                    <strong>Company Name:</strong>
-                    <span id="contact-company">{{ contact.company_name }}</span>
-                </div>
+                    <div class="contact-field">
+                        <strong>Company Name:</strong>
+                        <span id="contact-company">{{ contact.company_name }}</span>
+                    </div>
                 {% endif %}
 
-                 {% if contact.address %}
-                <div class="contact-field">
-                    <strong>Address:</strong>
-                    <span id="contact-address">{{ contact.address }}</span>
-                </div>
+                {% if contact.address %}
+                    <div class="contact-field">
+                        <strong>Address:</strong>
+                        <span id="contact-address">{{ contact.address }}</span>
+                    </div>
                 {% endif %}
 
-             {% if contact.company_phone %}
-                <div class="contact-field">
-                    <strong>Company Phone:</strong>
-                    <span id="contact-company-phone">{{ contact.company_phone }}</span>
-                </div>
+                {% if contact.company_phone %}
+                    <div class="contact-field">
+                        <strong>Company Phone:</strong>
+                        <span id="contact-company-phone">{{ contact.company_phone }}</span>
+                    </div>
                 {% endif %}
 
-             {% if contact.email %}
-                <div class="contact-field">
-                    <strong>Email Address:</strong>
-                    <span id="contact-email">{{ contact.email }}</span>
-                </div>
+                {% if contact.email %}
+                    <div class="contact-field">
+                        <strong>Email Address:</strong>
+                        <span id="contact-email">{{ contact.email }}</span>
+                    </div>
                 {% endif %}
 
-             {% if contact.fax_number %}
-                <div class="contact-field">
-                    <strong>Fax Number:</strong>
-                    <span id="contact-fax">{{ contact.fax_number }}</span>
-                </div>
+                {% if contact.fax_number %}
+                    <div class="contact-field">
+                        <strong>Fax Number:</strong>
+                        <span id="contact-fax">{{ contact.fax_number }}</span>
+                    </div>
                 {% endif %}
-                <div class="contact-field">
-                    <strong>Mobile Phone:</strong>
-                    <span id="contact-mobile-phone">{{ contact.phone_number }}</span>
-                </div>
-
-                <div class="contact-field">
-                    <strong>Comment:</strong>
-                    <span id="contact-comment">{{ contact.comment }}</span>
-                </div>
-
+                {% if contact.comment %}
+                    <div class="contact-field">
+                        <strong>Comment:</strong>
+                        <span id="contact-comment">{{ contact.comment }}</span>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="buttons-container">
