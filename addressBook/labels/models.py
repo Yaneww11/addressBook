@@ -6,6 +6,7 @@ from addressBook import settings
 class Label(models.Model):
     name = models.CharField(
         max_length=100,
+        unique=True,
     )
 
     color = models.CharField(max_length=7)
@@ -13,7 +14,9 @@ class Label(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='labels'
+        related_name='labels',
+        blank=True,
+        null=True,
     )
 
     class Meta:
@@ -21,3 +24,4 @@ class Label(models.Model):
 
     def __str__(self):
         return self.name
+

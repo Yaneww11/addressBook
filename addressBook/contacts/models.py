@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 from addressBook import settings
+from addressBook.labels.models import Label
 
 
 class Contact(models.Model):
@@ -15,6 +16,12 @@ class Contact(models.Model):
         null=True
     )
 
+    image = models.ImageField(
+        upload_to='contact-images/',
+        blank=True,
+        null=True,
+        default='default-images/default-profile-image.png',
+    )
     company_name = models.CharField(
         max_length=255,
         blank=True,
@@ -67,6 +74,12 @@ class Contact(models.Model):
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='contacts'
+    )
+
+    labels = models.ManyToManyField(
+        to=Label,
+        related_name='contacts',
+        blank=True,
     )
 
     def __str__(self):

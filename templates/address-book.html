@@ -20,54 +20,69 @@
                             <option value="friends">Friends</option>
                         </select>
                     </div>
-                    <a href="create-contact.html" class="add-contact-btn">+ Add Contact</a>
+                    <a href="{% url 'create-contact' %}" class="add-contact-btn">+ Add Contact</a>
 
                 </div>
             </div>
             <ul class="contact-list">
-                <li class="contact-item">
-                    <a href="contact-details.html">
-                        <div class="contact-card">
-                            <div class="contact-left">
-                                <img src="images/profile-pic-1.jpeg" alt="Contact Picture" class="contact-picture">
-                                <div class="contact-name-labels">
-                                    <h2>Jane Doe</h2>
-                                    <!-- if contact has labels display this block -->
-                                    <div class="book-labels">
-                                        <!--    - Get contact labels
-                                                - Display first label
-                                                - if (labelsAmount > 1 display) "+X more labels" span
-                                                - // X = labelsAmount - 1 -->
-                                        <span class="book-label" style="background-color: #ff6b6b;">Important</span>
-                                        <span class="book-label"
-                                              style="background-color: #646464;"> +2 more labels</span>
+                {% for contact in contacts %}
+                    <li class="contact-item">
+                        <a href="{% url 'detail-contact' pk=contact.pk %}">
+                            <div class="contact-card">
+                                <div class="contact-left">
+                                    <img src="{{ contact.image.url }}" alt="Contact Picture" class="contact-picture">
+                                    <div class="contact-name-labels">
+                                        <h2>{{ contact.first_name }}</h2>
+                                        <!-- if contact has labels display this block -->
+                                        <div class="book-labels">
+                                            {% for label in contact.labels.all %}
+                                                <!--    - Get contact labels
+                                                        - Display first label
+                                                        - if (labelsAmount > 1 display) "+X more labels" span
+                                                        - // X = labelsAmount - 1 -->
+                                                {#                                            <span class="book-label" style="background-color: #ff6b6b;">Important</span>#}
+                                                {#                                            <span class="book-label"#}
+                                                {#                                                  style="background-color: #646464;"> +2 more labels</span>#}
+                                                <span class="book-label"
+                                                      style="background-color: {{ label.color }};">{{ label }}</span>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
+                                <p class="contact-phone">{{ contact.phone_number }}</p>
                             </div>
-                            <p class="contact-phone">0897654321</p>
-                        </div>
-                    </a>
-                </li>
-                <li class="contact-item">
-                    <a href="contact-details.html">
-                        <div class="contact-card">
-                            <div class="contact-left">
-                                <img src="images/profile-pic-1.jpeg" alt="Contact Picture" class="contact-picture">
-                                <h2>John Smith</h2>
-                            </div>
-                            <p class="contact-phone">0891234567</p>
-                        </div>
-                    </a>
-                </li>
-                <!-- Add more contacts similarly -->
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
 
             <!-- Paginator -->
-            <div class="paginator">
-                <a href="#" class="paginator-btn previous">Previous</a>
-                <a href="#" class="paginator-page active">1</a>
-                <a href="#" class="paginator-btn next">Next</a>
-            </div>
+            {% if page_obj.paginator.num_pages > 1 %}
+                <div class="paginator">
+                    <!-- Previous Button -->
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="paginator-btn previous">Previous</a>
+                    {% else %}
+                        <a class="paginator-btn previous disabled">Previous</a>
+                    {% endif %}
+
+                    <!-- Page Numbers -->
+                    {% for page_num in page_obj.paginator.page_range %}
+                        {% if page_num == page_obj.number %}
+                            <span class="paginator-page">{{ page_num }}</span>
+                        {% else %}
+                            <a href="?page={{ page_num }}" class="paginator-page">{{ page_num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Next Button -->
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="paginator-btn next">Next</a>
+                    {% else %}
+                        <a class="paginator-btn next disabled">Next</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         </main>
     </div>
 {% endblock %}

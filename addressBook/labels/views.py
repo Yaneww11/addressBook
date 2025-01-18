@@ -27,7 +27,6 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-
         try:
             return super().form_valid(form)
         except IntegrityError:

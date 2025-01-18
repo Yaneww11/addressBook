@@ -3,55 +3,70 @@
 
 {% block content %}
     <main class="contact-details-container">
-        <h1>Contact Details</h1>
+        <h1>{{ contact.first_name }}'s Details</h1>
 
         <!-- Display Contact Information -->
         <div class="contact-info">
             <div class="contact-header">
-                <img src="images/profile-pic-1.jpeg" alt="Contact Image" class="contact-image">
+                <img src="{{ contact.image.url }}" alt="Contact Image" class="contact-image">
             </div>
             <div class="contact-fields">
-                <div class="contact-field">
-                    <strong>First Name:</strong>
-                    <span id="contact-first-name">Jane</span>
-                </div>
+                {% if contact.last_name %}
                 <div class="contact-field">
                     <strong>Last Name:</strong>
-                    <span id="contact-last-name">Doe</span>
+                    <span id="contact-last-name">{{ contact.last_name }}</span>
                 </div>
+                {% endif %}
+
+                {% if contact.company_name %}
                 <div class="contact-field">
                     <strong>Company Name:</strong>
-                    <span id="contact-company">TechCorp</span>
+                    <span id="contact-company">{{ contact.company_name }}</span>
                 </div>
+                {% endif %}
+
+                 {% if contact.address %}
                 <div class="contact-field">
                     <strong>Address:</strong>
-                    <span id="contact-address">123 Elm Street, Springfield</span>
+                    <span id="contact-address">{{ contact.address }}</span>
                 </div>
+                {% endif %}
+
+             {% if contact.company_phone %}
                 <div class="contact-field">
                     <strong>Company Phone:</strong>
-                    <span id="contact-company-phone">0898765432</span>
+                    <span id="contact-company-phone">{{ contact.company_phone }}</span>
                 </div>
+                {% endif %}
+
+             {% if contact.email %}
                 <div class="contact-field">
                     <strong>Email Address:</strong>
-                    <span id="contact-email">jane.doe@techcorp.com</span>
+                    <span id="contact-email">{{ contact.email }}</span>
                 </div>
+                {% endif %}
+
+             {% if contact.fax_number %}
                 <div class="contact-field">
                     <strong>Fax Number:</strong>
-                    <span id="contact-fax">123-456-789</span>
+                    <span id="contact-fax">{{ contact.fax_number }}</span>
                 </div>
+                {% endif %}
                 <div class="contact-field">
                     <strong>Mobile Phone:</strong>
-                    <span id="contact-mobile-phone">0897654321</span>
+                    <span id="contact-mobile-phone">{{ contact.phone_number }}</span>
                 </div>
+
                 <div class="contact-field">
                     <strong>Comment:</strong>
-                    <span id="contact-comment">Great business partner</span>
+                    <span id="contact-comment">{{ contact.comment }}</span>
                 </div>
+
             </div>
         </div>
         <div class="buttons-container">
-            <a href="edit-contact.html" class="edit-btn">Edit</a>
-            <a href="delete-contact.html" class="delete-btn">Delete</a>
+            <a href="{% url 'edit-contact' pk=contact.id %}" class="edit-btn">Edit</a>
+            <a href="{% url 'delete-contact' pk=contact.id %}" class="delete-btn">Delete</a>
         </div>
 
     </main>

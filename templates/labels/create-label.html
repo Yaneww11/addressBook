@@ -7,9 +7,9 @@
         <form id="create-label-form" method="post" action="{% url 'create-label' %}">
             {% csrf_token %}
             {% for field in form %}
+                <div class="error">{{ field.errors }}</div>
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
-                <div class="error">{{ field.errors }}</div>
             {% endfor %}
 
             {% if form.non_field_errors %}
