@@ -15,14 +15,15 @@ class ContactListView(LoginRequiredMixin, ListView):
     model = Contact
     template_name = "address-book.html"
     context_object_name = "contacts"
-    paginate_by = 2
+    # paginate_by = 2  Not works good with search js
 
     def get_queryset(self):
         return Contact.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context['user_labels'] = Label.objects.all()
+        context['user_labels'] = user.labels.all()
         return context
 
 

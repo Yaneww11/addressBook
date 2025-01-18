@@ -1,0 +1,27 @@
+<!-- Paginator -->
+            {% if page_obj.paginator.num_pages > 1 %}
+                <div class="paginator">
+                    <!-- Previous Button -->
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="paginator-btn previous">Previous</a>
+                    {% else %}
+                        <a class="paginator-btn previous disabled">Previous</a>
+                    {% endif %}
+
+                    <!-- Page Numbers -->
+                    {% for page_num in page_obj.paginator.page_range %}
+                        {% if page_num == page_obj.number %}
+                            <span class="paginator-page">{{ page_num }}</span>
+                        {% else %}
+                            <a href="?page={{ page_num }}" class="paginator-page">{{ page_num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Next Button -->
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="paginator-btn next">Next</a>
+                    {% else %}
+                        <a class="paginator-btn next disabled">Next</a>
+                    {% endif %}
+                </div>
+            {% endif %}

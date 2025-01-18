@@ -13,11 +13,9 @@
                         </select>
                         <select id="filter-options" class="sort-dropdown">
                             <option value="all">All</option>
-                            <!-- Populate the rest of the options with all available labels -->
-                            <option value="important">Important</option>
-                            <option value="work">Work</option>
-                            <option value="family">Family</option>
-                            <option value="friends">Friends</option>
+                            {% for label in user_labels %}
+                                <option value="{{ label }}">{{ label }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <a href="{% url 'create-contact' %}" class="add-contact-btn">+ Add Contact</a>
@@ -32,7 +30,7 @@
                                 <div class="contact-left">
                                     <img src="{{ contact.image.url }}" alt="Contact Picture" class="contact-picture">
                                     <div class="contact-name-labels">
-                                        <h2>{{ contact.first_name }}</h2>
+                                        <h2>{{ contact }}</h2>
                                         <!-- if contact has labels display this block -->
                                         <div class="book-labels">
                                             {% for label in contact.labels.all %}
@@ -56,33 +54,88 @@
                 {% endfor %}
             </ul>
 
-            <!-- Paginator -->
-            {% if page_obj.paginator.num_pages > 1 %}
-                <div class="paginator">
-                    <!-- Previous Button -->
-                    {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}" class="paginator-btn previous">Previous</a>
-                    {% else %}
-                        <a class="paginator-btn previous disabled">Previous</a>
-                    {% endif %}
-
-                    <!-- Page Numbers -->
-                    {% for page_num in page_obj.paginator.page_range %}
-                        {% if page_num == page_obj.number %}
-                            <span class="paginator-page">{{ page_num }}</span>
-                        {% else %}
-                            <a href="?page={{ page_num }}" class="paginator-page">{{ page_num }}</a>
-                        {% endif %}
-                    {% endfor %}
-
-                    <!-- Next Button -->
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}" class="paginator-btn next">Next</a>
-                    {% else %}
-                        <a class="paginator-btn next disabled">Next</a>
-                    {% endif %}
-                </div>
-            {% endif %}
+            <!-- Not works good with search js-->
+            {#            {% include 'common/paginator.html' %}#}
         </main>
     </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("search-bar");
+        const categoryFilter = document.getElementById("filter-options");
+        const sortOptions = document.getElementById("sort-options");
+        const contactList = document.querySelector(".contact-list");
+        const contactItems = Array.from(document.querySelectorAll(".contact-item"));
+
+        // Function to filter workouts
+        function filterWorkouts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value.toLowerCase();
+
+            contactItems.forEach(item => {
+                const card = item.querySelector(".contact-card");
+                const title = card.querySelector("h2").textContent.toLowerCase();
+                const labels = card.querySelectorAll(".book-label");
+
+                // Get categories
+                let categories = [];
+                labels.forEach(label => {
+                    categories.push(label.textContent.toLowerCase());
+                });
+
+                // Check if the card matches the search term and category
+                const matchesSearch = title.includes(searchTerm);
+                const matchesCategory = selectedCategory === "all" || categories.includes(selectedCategory);
+
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        // Function to sort contacts
+        function sortContacts() {
+            const sortOption = sortOptions.value;
+
+            // Sort contactItems array based on the selected sort option
+            contactItems.sort((a, b) => {
+                const nameA = a.querySelector("h2").textContent.toLowerCase();
+                const nameB = b.querySelector("h2").textContent.toLowerCase();
+
+                if (sortOption === "a-z") {
+                    return nameA.localeCompare(nameB);
+                } else if (sortOption === "z-a") {
+                    return nameB.localeCompare(nameA);
+                }
+                return 0;
+            });
+
+            // Reorder the items in the contact list
+            contactItems.forEach(item => {
+                contactList.appendChild(item);
+            });
+        }
+
+        // Add event listeners
+        searchInput.addEventListener("input", () => {
+            filterWorkouts();
+        });
+
+        categoryFilter.addEventListener("change", () => {
+            filterWorkouts();
+        });
+
+        sortOptions.addEventListener("change", () => {
+            sortContacts();
+            filterWorkouts(); // Reapply filters after sorting
+        });
+
+        // Initial render
+        sortContacts();
+        filterWorkouts();
+    });
+</script>
+
 {% endblock %}
