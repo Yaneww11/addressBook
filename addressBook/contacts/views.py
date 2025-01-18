@@ -10,12 +10,12 @@ from addressBook.contacts.models import Contact
 from addressBook.labels.models import Label
 
 
-# Create your views here.
+# Create the contact list view
 class ContactListView(LoginRequiredMixin, ListView):
     model = Contact
     template_name = "address-book.html"
     context_object_name = "contacts"
-    # paginate_by = 2  Not works good with search js
+    # paginate_by = 2  Doesn't work as intended currently, will consider removing
 
     def get_queryset(self):
         return Contact.objects.filter(user=self.request.user)

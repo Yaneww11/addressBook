@@ -31,16 +31,15 @@
                                     <img src="{{ contact.image.url }}" alt="Contact Picture" class="contact-picture">
                                     <div class="contact-name-labels">
                                         <h2>{{ contact }}</h2>
-                                        <!-- if contact has labels display this block -->
+                                        <!-- TODO or remove: if contact has labels display this block -->
                                         <div class="book-labels">
                                             {% for label in contact.labels.all %}
                                                 <!--    - Get contact labels
                                                         - Display first label
-                                                        - if (labelsAmount > 1 display) "+X more labels" span
-                                                        - // X = labelsAmount - 1 -->
-                                                {#                                            <span class="book-label" style="background-color: #ff6b6b;">Important</span>#}
+                                                        - if (labelsAmount > 1 display) "+{remainingLabels} more labels" span
+                                                        - // remainingLabels = labelsAmount - 1 -->
                                                 {#                                            <span class="book-label"#}
-                                                {#                                                  style="background-color: #646464;"> +2 more labels</span>#}
+                                                {#                                                  style="background-color: #646464;"> +{% remainingLabels %} more labels</span>#}
                                                 <span class="book-label"
                                                       style="background-color: {{ label.color }};">{{ label }}</span>
                                             {% endfor %}
@@ -54,7 +53,7 @@
                 {% endfor %}
             </ul>
 
-            <!-- Not works good with search js-->
+            <!-- Not works good with search js, may remove-->
             {#            {% include 'common/paginator.html' %}#}
         </main>
     </div>
@@ -67,8 +66,8 @@
         const contactList = document.querySelector(".contact-list");
         const contactItems = Array.from(document.querySelectorAll(".contact-item"));
 
-        // Function to filter workouts
-        function filterWorkouts() {
+        // Function to filter contacts using search string and category
+        function filterContacts() {
             const searchTerm = searchInput.value.toLowerCase();
             const selectedCategory = categoryFilter.value.toLowerCase();
 
@@ -95,7 +94,7 @@
             });
         }
 
-        // Function to sort contacts
+        // Function to sort contacts from selected option in dropdown
         function sortContacts() {
             const sortOption = sortOptions.value;
 
@@ -120,21 +119,21 @@
 
         // Add event listeners
         searchInput.addEventListener("input", () => {
-            filterWorkouts();
+            filterContacts();
         });
 
         categoryFilter.addEventListener("change", () => {
-            filterWorkouts();
+            filterContacts();
         });
 
         sortOptions.addEventListener("change", () => {
             sortContacts();
-            filterWorkouts(); // Reapply filters after sorting
+            filterContacts(); // Reapply filters after sorting
         });
 
         // Initial render
         sortContacts();
-        filterWorkouts();
+        filterContacts();
     });
 </script>
 

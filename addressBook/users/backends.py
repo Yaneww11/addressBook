@@ -4,7 +4,7 @@ from django.contrib.auth.backends import ModelBackend
 
 UserModel = get_user_model()
 
-
+# Authentication to allow users to login with email or username
 class EmailOrUsernameBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
 
