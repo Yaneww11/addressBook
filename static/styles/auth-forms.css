@@ -95,6 +95,17 @@ button.delete:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+.change-picture-btn {
+    width: 45%;
+    background: linear-gradient(45deg, #b0bec5, #90a4ae);
+}
+
+.change-picture-btn:hover {
+    background: linear-gradient(45deg, #37474f, #263238);
+
+}
+
+
 /* Cancel Button Styles */
 .cancel-btn {
     text-decoration: none;

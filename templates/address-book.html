@@ -8,10 +8,14 @@
                 <div class="actions">
                     <div class="search-bar-sorting">
                         <input type="text" placeholder="Search contacts..." id="search-bar">
+
+                        <!-- Dropdown for sorting contacts -->
                         <select id="sort-options" class="sort-dropdown">
                             <option value="a-z">Sort: A-Z</option>
                             <option value="z-a">Sort: Z-A</option>
                         </select>
+
+                        <!-- Dropdown for filtering contacts by labels -->
                         <select id="filter-options" class="sort-dropdown">
                             <option value="all">All</option>
                             {% for label in user_labels %}
@@ -19,10 +23,12 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <a href="{% url 'create-contact' %}" class="add-contact-btn">+ Add Contact</a>
 
+                    <a href="{% url 'create-contact' %}" class="add-contact-btn">+ Add Contact</a>
                 </div>
             </div>
+
+            <!-- Loop through contacts and display each one -->
             <ul class="contact-list">
                 {% for contact in contacts %}
                     <li class="contact-item">
@@ -32,8 +38,8 @@
                                     <img src="{{ contact.image.url }}" alt="Contact Picture" class="contact-picture">
                                     <div class="contact-name-labels">
                                         <h2>{{ contact }}</h2>
-                                        <!-- TODO or remove: if contact has labels display this block -->
                                         <div class="book-labels">
+                                            <!-- Fetch and display contact labels -->
                                             {% get_contact_labels contact as con_labels %}
                                             {% if con_labels.count > 2 %}
                                                 <span class="book-label"
@@ -49,6 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <p class="contact-phone">{{ contact.phone_number }}</p>
                             </div>
                         </a>
@@ -56,7 +63,7 @@
                 {% endfor %}
             </ul>
 
-            <!-- Not works good with search js, may remove-->
+            <!-- Doesn't work good with search.js -->
             {#            {% include 'common/paginator.html' %}#}
         </main>
     </div>
@@ -71,7 +78,7 @@
             const contactList = document.querySelector(".contact-list");
             const contactItems = Array.from(document.querySelectorAll(".contact-item"));
 
-            // Function to filter contacts using search string and category
+            // Function to filter contacts based on search term and selected category
             function filterContacts() {
                 const searchTerm = searchInput.value.toLowerCase();
                 const selectedCategory = categoryFilter.value.toLowerCase();
@@ -81,13 +88,12 @@
                     const title = card.querySelector("h2").textContent.toLowerCase();
                     const labels = card.querySelectorAll(".book-label");
 
-                    // Get categories
+                    // Extract all labels from the contact and check if they match the filter
                     let categories = [];
                     labels.forEach(label => {
                         categories.push(label.textContent.toLowerCase());
                     });
 
-                    // Check if the card matches the search term and category
                     const matchesSearch = title.includes(searchTerm);
                     const matchesCategory = selectedCategory === "all" || categories.includes(selectedCategory);
 
@@ -99,11 +105,10 @@
                 });
             }
 
-            // Function to sort contacts from selected option in dropdown
+            // Function to sort contacts based on the selected sort option (A-Z or Z-A)
             function sortContacts() {
                 const sortOption = sortOptions.value;
 
-                // Sort contactItems array based on the selected sort option
                 contactItems.sort((a, b) => {
                     const nameA = a.querySelector("h2").textContent.toLowerCase();
                     const nameB = b.querySelector("h2").textContent.toLowerCase();
@@ -116,13 +121,11 @@
                     return 0;
                 });
 
-                // Reorder the items in the contact list
                 contactItems.forEach(item => {
                     contactList.appendChild(item);
                 });
             }
 
-            // Add event listeners
             searchInput.addEventListener("input", () => {
                 filterContacts();
             });
@@ -133,10 +136,9 @@
 
             sortOptions.addEventListener("change", () => {
                 sortContacts();
-                filterContacts(); // Reapply filters after sorting
+                filterContacts();
             });
 
-            // Initial render
             sortContacts();
             filterContacts();
         });

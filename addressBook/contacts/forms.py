@@ -7,14 +7,18 @@ from .models import Contact
 class ContactBaseForm(forms.ModelForm):
     class Meta:
         model = Contact
+
         fields = [
             'first_name', 'last_name', 'phone_number',
             'company_name', 'address', 'company_phone', 'email',
             'fax_number', 'comment', 'labels', 'image'
         ]
+
         required = [
             'first_name', 'phone_number'
         ]
+
+        # Define custom widgets for each field to style and provide placeholder text
         widgets = {
             'first_name': forms.TextInput(
                 attrs={'placeholder': 'Enter first name'}
@@ -47,15 +51,16 @@ class ContactBaseForm(forms.ModelForm):
             'image': forms.ClearableFileInput()
         }
 
+    # Custom validation method for the 'labels' field
     def clean_labels(self):
         labels = self.cleaned_data.get('labels')
 
-        # Check if the number of labels exceeds the limit
         if labels.count() > 5:
             raise ValidationError("A contact can have a maximum of 5 labels.")
 
         return labels
 
 
+# ContactCreateForm inherits ContactBaseForm and can be customized further if needed
 class ContactCreateForm(ContactBaseForm):
     pass
