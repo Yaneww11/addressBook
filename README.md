@@ -1,3 +1,6 @@
+### Project Documentation
+https://docs.google.com/document/d/1IL8xgpp-KMa1CkxTJG1lMVPZhwinh4rkEnirxwvwNW4/edit?usp=sharing
+
 ### ⚙️ Setup
 
 Clone the repository into a workdir.
