@@ -77,8 +77,8 @@
                         <strong>Labels:</strong>
                         <span id="contact-comment">
                             {% for label in con_labels %}
-                                <span class="book-label"
-                                      style="background-color: {{ label.color }};">{{ label }}</span>
+                                <a href="{% url 'edit-label' label.id %}" class="book-label"
+                                      style="background-color: {{ label.color }};">{{ label }}</a>
                             {% endfor %}
                         </span>
                     </div>
