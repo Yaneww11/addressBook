@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load contact_tags %}
 {% load static %}
 
 {% block content %}
@@ -67,6 +68,19 @@
                     <div class="contact-field">
                         <strong>Comment:</strong>
                         <span id="contact-comment">{{ contact.comment }}</span>
+                    </div>
+                {% endif %}
+
+                {% get_contact_labels contact as con_labels %}
+                {% if con_labels %}
+                    <div class="contact-field">
+                        <strong>Labels:</strong>
+                        <span id="contact-comment">
+                            {% for label in con_labels %}
+                                <a href="{% url 'edit-label' label.id %}" class="book-label"
+                                      style="background-color: {{ label.color }};">{{ label }}</a>
+                            {% endfor %}
+                        </span>
                     </div>
                 {% endif %}
             </div>

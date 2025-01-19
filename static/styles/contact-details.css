@@ -157,3 +157,7 @@
         height: 10rem;
     }
 }
+
+a.book-label{
+    text-decoration: none;
+}
