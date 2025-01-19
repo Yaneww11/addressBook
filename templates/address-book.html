@@ -58,8 +58,10 @@
             {#            {% include 'common/paginator.html' %}#}
         </main>
     </div>
+{% endblock %}
 
-    <script>
+{% block extra_js %}
+<script>
     document.addEventListener("DOMContentLoaded", () => {
         const searchInput = document.getElementById("search-bar");
         const categoryFilter = document.getElementById("filter-options");
@@ -137,5 +139,4 @@
         filterWorkouts();
     });
 </script>
-
 {% endblock %}

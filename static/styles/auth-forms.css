@@ -160,4 +160,28 @@ small {
     .form-container .delete-form-content {
         padding: 2rem;
     }
+    form .fa-eye{
+    position: absolute;
+    font-size: 1rem;
+    right: 10.5%;
+    color: #ccc;
+    top: 63.5%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    }
+}
+
+form .fa-eye{
+    position: absolute;
+    font-size: 1rem;
+    right: 30.5%;
+    color: #ccc;
+    top: 59.2%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+form .fa-eye.active::before{
+    color: #333;
+    content: "\f070";
 }

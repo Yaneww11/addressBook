@@ -11,7 +11,11 @@
                 {% csrf_token %}
                 {% for field in form %}
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
                     {{ field }}
+                    {% if field.name == 'password' %}
+                        <i class="fas fa-eye"></i>
+                    {% endif %}
                     <div class="error">{{ field.errors }}</div>
                 {% endfor %}
 
@@ -33,4 +37,21 @@
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const passField = document.querySelector("input[type='password']"),
+        togggleBtn = document.querySelector(".fa-eye");
+
+    togggleBtn.onclick = () => {
+        if (passField.type === "password") {
+            passField.type = "text";
+            togggleBtn.classList.add("active")
+        } else {
+            passField.type = "password"
+            togggleBtn.classList.remove("active")
+        }
+    }
+</script>
 {% endblock %}
