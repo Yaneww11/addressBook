@@ -9,7 +9,8 @@
             <h1>Delete Profile</h1>
             <p class="delete-form-content">Deleting your profile will permanently remove your account and all associated
                 data. Are you sure?</p>
-            <form action="#" method="post">
+            <form action="{% url 'delete-profile' %}" method="post">
+                {% csrf_token %}
                 <button type="submit" class="delete">Delete</button>
                 <div class="link-container">
                     <a href="{% url 'profile' user.username %}">Cancel</a>
