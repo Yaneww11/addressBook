@@ -1,5 +1,5 @@
 ### Project Documentation
-https://docs.google.com/document/d/1IL8xgpp-KMa1CkxTJG1lMVPZhwinh4rkEnirxwvwNW4/edit?usp=sharing
+[https://docs.google.com/document/d/1IL8xgpp-KMa1CkxTJG1lMVPZhwinh4rkEnirxwvwNW4/edit?usp=sharing](https://drive.google.com/file/d/1A7uBCbuJ_R2rmugplISZsY95HjACYiO0/view?usp=drive_link)
 
 ### ⚙️ Setup
 
