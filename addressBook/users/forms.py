@@ -7,9 +7,11 @@ from django.core.exceptions import ValidationError
 from addressBook.users.models import Profile
 
 
+# Form for user registration
 class UserRegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Customize password input widgets with placeholders
         self.fields['password1'].widget = forms.PasswordInput(
             attrs={
                 'placeholder': "Enter Password"
@@ -27,6 +29,7 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
         widgets = {
+            # Add placeholders to form fields
             'username': TextInput(
                 attrs={
                     'placeholder': 'Enter your username',
@@ -50,6 +53,7 @@ class UserRegisterForm(UserCreationForm):
         }
 
 
+# Form for user login with username or email
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
         label="Username or Email",
@@ -64,19 +68,12 @@ class UserLoginForm(AuthenticationForm):
         })
     )
 
-    labels = [
-
-    ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def clean(self):
         cleaned_data = super().clean()
         email_or_username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
-        # Use the custom backend
+        # Authenticate the user with custom backend
         self.user_cache = authenticate(self.request, username=email_or_username, password=password)
         if self.user_cache is None:
             raise forms.ValidationError("Please enter a correct username/email and password.")
@@ -86,6 +83,7 @@ class UserLoginForm(AuthenticationForm):
         return self.cleaned_data
 
 
+# Form for resetting user password
 class CustomPasswordResetForm(SetPasswordForm):
     new_password1 = forms.CharField(
         widget=forms.PasswordInput(
@@ -106,6 +104,7 @@ class CustomPasswordResetForm(SetPasswordForm):
     )
 
 
+# Form for editing user profile
 class UserProfileEditForm(forms.ModelForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Enter your username'})
@@ -124,7 +123,7 @@ class UserProfileEditForm(forms.ModelForm):
         model = Profile
         fields = ['profile_picture', 'phone_number']
         widgets = {
-            'profile_picture': forms.ClearableFileInput(),
+            'profile_picture': forms.ClearableFileInput(),  # Widget for file upload
             'phone_number': forms.TextInput(
                 attrs={'placeholder': 'Enter your phone number', 'required': False}
             ),
@@ -132,7 +131,7 @@ class UserProfileEditForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Reorder fields here
+        # Reorder fields in the form
         self.fields = {
             'username': self.fields['username'],
             'email': self.fields['email'],
@@ -145,6 +144,7 @@ class UserProfileEditForm(forms.ModelForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         user_model = get_user_model()
+        # Validate username to ensure it's unique among other users
         if user_model.objects.filter(username=username).exclude(id=self.instance.user.id).exists():
             raise ValidationError("This username is already taken.")
         return username

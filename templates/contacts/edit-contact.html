@@ -11,9 +11,16 @@
                 {% for field in form %}
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {% if field.name == "image" %}
-                        <input type="file" id="{{ field.id_for_label }}" name="{{ field.name }}" accept="image/*" style="display: none;">
-                        <button type="button" onclick="document.getElementById('{{ field.id_for_label }}').click();">Change Contact Picture</button>
-                    {% else %}    
+                        <input type="file" id="{{ field.id_for_label }}" name="{{ field.name }}" accept="image/*"
+                               style="display: none;">
+                        <button class="change-picture-btn" type="button"
+                                onclick="document.getElementById('{{ field.id_for_label }}').click();">Change Contact
+                            Picture
+                        </button>
+                    {% elif field.name == 'labels' %}
+                        {{ field }}
+                        <small>Hold down the Ctrl (Windows) or Command (Mac) key to select multiple labels.</small>
+                    {% else %}
                         {{ field }}
                     {% endif %}
                     <div class="error">{{ field.errors }}</div>
@@ -26,7 +33,7 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-                <small>Hold down the Ctrl (Windows) or Command (Mac) key to select multiple labels.</small>
+
 
                 <button type="submit">Edit Contact</button>
                 <div class="link-container">
