@@ -13,7 +13,7 @@
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {% if field.name == "profile_picture" %}
                         <input type="file" id="{{ field.id_for_label }}" name="{{ field.name }}" accept="image/*" style="display: none;">
-                        <button type="button" onclick="document.getElementById('{{ field.id_for_label }}').click();">Change Profile Picture</button>
+                        <button class="change-picture-btn" type="button" onclick="document.getElementById('{{ field.id_for_label }}').click();">Change Profile Picture</button>
                     {% else %}
                         {{ field }}
                     {% endif %}

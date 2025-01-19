@@ -10,23 +10,27 @@ from addressBook.contacts.models import Contact
 from addressBook.labels.models import Label
 
 
-# Create the contact list view
+# Contact list view that only shows contacts for the logged-in user
 class ContactListView(LoginRequiredMixin, ListView):
     model = Contact
     template_name = "address-book.html"
     context_object_name = "contacts"
-    # paginate_by = 2  Doesn't work as intended currently, will consider removing
+
+    # paginate_by = 2  # Pagination is currently not working as intended
 
     def get_queryset(self):
+        # Only return contacts belonging to the logged-in user
         return Contact.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
+        # Add user-specific labels to the context for filtering contacts
         user = self.request.user
         context = super().get_context_data(**kwargs)
         context['user_labels'] = user.labels.all()
         return context
 
 
+# View for creating a new contact
 class ContactCreateView(LoginRequiredMixin, CreateView):
     model = Contact
     form_class = ContactCreateForm
@@ -34,20 +38,25 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('address-book')
 
     def form_valid(self, form):
+        # Associate the new contact with the logged-in user
         form.instance.user = self.request.user
 
         try:
+            # Try saving the form, if successful, return valid response
             return super().form_valid(form)
         except IntegrityError:
+            # If a contact with the same name already exists, add an error
             form.add_error(None, "A contact with this name already exists.")
             return self.form_invalid(form)
 
     def get_context_data(self, **kwargs):
+        # Pass all available labels to the context to be used in the form
         context = super().get_context_data(**kwargs)
         context['labels'] = Label.objects.all()
         return context
 
 
+# View for editing an existing contact
 class ContactEditView(LoginRequiredMixin, UpdateView):
     model = Contact
     form_class = ContactBaseForm
@@ -55,49 +64,73 @@ class ContactEditView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('address-book')
 
     def dispatch(self, request, *args, **kwargs):
+        # Ensure the user is trying to edit their own contact
         contact = get_object_or_404(Contact, pk=self.kwargs['pk'])
 
+        # If the contact does not belong to the user, redirect them to the address book
         if contact.user != request.user:
             return HttpResponseRedirect(reverse('address-book'))
 
+        # Proceed with the original dispatch if the user owns the contact
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        print(f"Uploaded file: {self.request.FILES.get('image')}")
+        # Associate the updated contact with the logged-in user
         form.instance.user = self.request.user
 
         try:
+            # Attempt to save the form and return a valid response
             return super().form_valid(form)
         except IntegrityError:
+            # If contact with the same name exists, add an error
             form.add_error(None, "A contact with this name already exists.")
             return self.form_invalid(form)
 
 
+# View for deleting a contact
 class ContactDeleteView(LoginRequiredMixin, DeleteView):
     model = Contact
     template_name = 'contacts/delete-contact.html'
     success_url = reverse_lazy('address-book')
 
     def dispatch(self, request, *args, **kwargs):
+        # Ensure the user is deleting their own contact
         contact = get_object_or_404(Contact, pk=self.kwargs['pk'])
 
+        # If the contact does not belong to the user, redirect them to the home page
         if contact.user != request.user:
             return HttpResponseRedirect(reverse('home'))
 
+        # Proceed with the original dispatch if the user owns the contact
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        # Retrieve the specific contact to be deleted
         return get_object_or_404(Contact, pk=self.kwargs['pk'])
 
 
+# View for displaying details of a specific contact
 class ContactDetailView(LoginRequiredMixin, DetailView):
     model = Contact
     template_name = 'contacts/contact-details.html'
     context_object_name = 'contact'
 
+    def dispatch(self, request, *args, **kwargs):
+        # Ensure the user is trying to view their own contact
+        contact = get_object_or_404(Contact, pk=self.kwargs['pk'])
+
+        # If the contact does not belong to the user, redirect them to the address book
+        if contact.user != request.user:
+            return HttpResponseRedirect(reverse('address-book'))
+
+        # Proceed with the original dispatch if the user owns the contact
+        return super().dispatch(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
+        # Retrieve the specific contact based on the pk in the URL
         return get_object_or_404(Contact, pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
+        # Return the context data as is (no additional data needed for now)
         context = super().get_context_data(**kwargs)
         return context
