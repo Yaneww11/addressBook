@@ -85,13 +85,14 @@
 .contact-list {
     list-style: none;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
     padding: 0;
 }
 
 .contact-item {
-    width: 100%;
+    width: 50%;
     min-width: 250px;
 }
 
@@ -204,4 +205,10 @@
 
 .paginator-btn {
     font-weight: bold;
+}
+
+@media (max-width: 1024px) {
+    .contact-item {
+        width: 85%;
+    }
 }
