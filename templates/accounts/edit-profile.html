@@ -11,7 +11,12 @@
                 {% csrf_token %}
                 {% for field in form %}
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
+                    {% if field.name == "profile_picture" %}
+                        <input type="file" id="{{ field.id_for_label }}" name="{{ field.name }}" accept="image/*" style="display: none;">
+                        <button type="button" onclick="document.getElementById('{{ field.id_for_label }}').click();">Change Profile Picture</button>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
                     <div class="error">{{ field.errors }}</div>
                 {% endfor %}
 

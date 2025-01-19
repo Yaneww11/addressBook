@@ -32,7 +32,7 @@
                                     <img src="{{ contact.image.url }}" alt="Contact Picture" class="contact-picture">
                                     <div class="contact-name-labels">
                                         <h2>{{ contact }}</h2>
-                                        <!-- if contact has labels display this block -->
+                                        <!-- TODO or remove: if contact has labels display this block -->
                                         <div class="book-labels">
                                             {% get_contact_labels contact as con_labels %}
                                             {% if con_labels.count > 2 %}
@@ -56,7 +56,7 @@
                 {% endfor %}
             </ul>
 
-            <!-- Not works good with search js-->
+            <!-- Not works good with search js, may remove-->
             {#            {% include 'common/paginator.html' %}#}
         </main>
     </div>
@@ -64,6 +64,7 @@
 
 {% block extra_js %}
     <script>
+
         document.addEventListener("DOMContentLoaded", () => {
             const searchInput = document.getElementById("search-bar");
             const categoryFilter = document.getElementById("filter-options");
@@ -130,12 +131,10 @@
             categoryFilter.addEventListener("change", () => {
                 filterWorkouts();
             });
-
             sortOptions.addEventListener("change", () => {
                 sortContacts();
                 filterWorkouts(); // Reapply filters after sorting
             });
-
             // Initial render
             sortContacts();
             filterWorkouts();

@@ -59,10 +59,10 @@ class Contact(models.Model):
         validators=[
             RegexValidator(
                 regex=r'^(\+359|0)?8[789]\d{7}$',
-                message='Please correct valid phone number'
+                message='Enter a valid phone number'
             )
         ],
-        help_text='089999999',
+        help_text='08xxxxxxxx OR +3598xxxxxxxx',
     )
 
     comment = models.TextField(

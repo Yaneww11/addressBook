@@ -48,5 +48,5 @@ class Profile(models.Model):
                 message='Please provide a valid phone number',
             )
         ],
-        help_text='e.g., +359899999999',
+        help_text='08xxxxxxxx OR +3598xxxxxxxx',
     )
