@@ -64,7 +64,6 @@
 
 {% block extra_js %}
     <script>
-
         document.addEventListener("DOMContentLoaded", () => {
             const searchInput = document.getElementById("search-bar");
             const categoryFilter = document.getElementById("filter-options");
@@ -72,8 +71,8 @@
             const contactList = document.querySelector(".contact-list");
             const contactItems = Array.from(document.querySelectorAll(".contact-item"));
 
-            // Function to filter workouts
-            function filterWorkouts() {
+            // Function to filter contacts using search string and category
+            function filterContacts() {
                 const searchTerm = searchInput.value.toLowerCase();
                 const selectedCategory = categoryFilter.value.toLowerCase();
 
@@ -100,7 +99,7 @@
                 });
             }
 
-            // Function to sort contacts
+            // Function to sort contacts from selected option in dropdown
             function sortContacts() {
                 const sortOption = sortOptions.value;
 
@@ -125,19 +124,21 @@
 
             // Add event listeners
             searchInput.addEventListener("input", () => {
-                filterWorkouts();
+                filterContacts();
             });
 
             categoryFilter.addEventListener("change", () => {
-                filterWorkouts();
+                filterContacts();
             });
+
             sortOptions.addEventListener("change", () => {
                 sortContacts();
-                filterWorkouts(); // Reapply filters after sorting
+                filterContacts(); // Reapply filters after sorting
             });
+
             // Initial render
             sortContacts();
-            filterWorkouts();
+            filterContacts();
         });
     </script>
 {% endblock %}
