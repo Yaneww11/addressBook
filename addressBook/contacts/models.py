@@ -13,7 +13,7 @@ class Contact(models.Model):
     last_name = models.CharField(
         max_length=255,
         blank=True,
-        null=True
+        default='',
     )
 
     image = models.ImageField(
