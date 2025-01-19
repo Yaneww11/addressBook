@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load contact_tags %}
 {% block content %}
     <div class="wrapper">
         <main class="address-book-container">
@@ -33,17 +34,18 @@
                                         <h2>{{ contact }}</h2>
                                         <!-- if contact has labels display this block -->
                                         <div class="book-labels">
-                                            {% for label in contact.labels.all %}
-                                                <!--    - Get contact labels
-                                                        - Display first label
-                                                        - if (labelsAmount > 1 display) "+X more labels" span
-                                                        - // X = labelsAmount - 1 -->
-                                                {#                                            <span class="book-label" style="background-color: #ff6b6b;">Important</span>#}
-                                                {#                                            <span class="book-label"#}
-                                                {#                                                  style="background-color: #646464;"> +2 more labels</span>#}
+                                            {% get_contact_labels contact as con_labels %}
+                                            {% if con_labels.count > 1 %}
                                                 <span class="book-label"
-                                                      style="background-color: {{ label.color }};">{{ label }}</span>
-                                            {% endfor %}
+                                                      style="background-color: {{ con_labels.first.color }};">{{ con_labels.first }}</span>
+                                                <span class="book-label"
+                                                      style="background-color: #646464;"> +2 more labels</span>
+                                            {% else %}
+                                                {% for label in con_labels %}
+                                                    <span class="book-label"
+                                                          style="background-color: {{ label.color }};">{{ label }}</span>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -61,82 +63,82 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchInput = document.getElementById("search-bar");
-        const categoryFilter = document.getElementById("filter-options");
-        const sortOptions = document.getElementById("sort-options");
-        const contactList = document.querySelector(".contact-list");
-        const contactItems = Array.from(document.querySelectorAll(".contact-item"));
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("search-bar");
+            const categoryFilter = document.getElementById("filter-options");
+            const sortOptions = document.getElementById("sort-options");
+            const contactList = document.querySelector(".contact-list");
+            const contactItems = Array.from(document.querySelectorAll(".contact-item"));
 
-        // Function to filter workouts
-        function filterWorkouts() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedCategory = categoryFilter.value.toLowerCase();
+            // Function to filter workouts
+            function filterWorkouts() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCategory = categoryFilter.value.toLowerCase();
 
-            contactItems.forEach(item => {
-                const card = item.querySelector(".contact-card");
-                const title = card.querySelector("h2").textContent.toLowerCase();
-                const labels = card.querySelectorAll(".book-label");
+                contactItems.forEach(item => {
+                    const card = item.querySelector(".contact-card");
+                    const title = card.querySelector("h2").textContent.toLowerCase();
+                    const labels = card.querySelectorAll(".book-label");
 
-                // Get categories
-                let categories = [];
-                labels.forEach(label => {
-                    categories.push(label.textContent.toLowerCase());
+                    // Get categories
+                    let categories = [];
+                    labels.forEach(label => {
+                        categories.push(label.textContent.toLowerCase());
+                    });
+
+                    // Check if the card matches the search term and category
+                    const matchesSearch = title.includes(searchTerm);
+                    const matchesCategory = selectedCategory === "all" || categories.includes(selectedCategory);
+
+                    if (matchesSearch && matchesCategory) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            }
+
+            // Function to sort contacts
+            function sortContacts() {
+                const sortOption = sortOptions.value;
+
+                // Sort contactItems array based on the selected sort option
+                contactItems.sort((a, b) => {
+                    const nameA = a.querySelector("h2").textContent.toLowerCase();
+                    const nameB = b.querySelector("h2").textContent.toLowerCase();
+
+                    if (sortOption === "a-z") {
+                        return nameA.localeCompare(nameB);
+                    } else if (sortOption === "z-a") {
+                        return nameB.localeCompare(nameA);
+                    }
+                    return 0;
                 });
 
-                // Check if the card matches the search term and category
-                const matchesSearch = title.includes(searchTerm);
-                const matchesCategory = selectedCategory === "all" || categories.includes(selectedCategory);
+                // Reorder the items in the contact list
+                contactItems.forEach(item => {
+                    contactList.appendChild(item);
+                });
+            }
 
-                if (matchesSearch && matchesCategory) {
-                    item.style.display = "block";
-                } else {
-                    item.style.display = "none";
-                }
-            });
-        }
-
-        // Function to sort contacts
-        function sortContacts() {
-            const sortOption = sortOptions.value;
-
-            // Sort contactItems array based on the selected sort option
-            contactItems.sort((a, b) => {
-                const nameA = a.querySelector("h2").textContent.toLowerCase();
-                const nameB = b.querySelector("h2").textContent.toLowerCase();
-
-                if (sortOption === "a-z") {
-                    return nameA.localeCompare(nameB);
-                } else if (sortOption === "z-a") {
-                    return nameB.localeCompare(nameA);
-                }
-                return 0;
+            // Add event listeners
+            searchInput.addEventListener("input", () => {
+                filterWorkouts();
             });
 
-            // Reorder the items in the contact list
-            contactItems.forEach(item => {
-                contactList.appendChild(item);
+            categoryFilter.addEventListener("change", () => {
+                filterWorkouts();
             });
-        }
 
-        // Add event listeners
-        searchInput.addEventListener("input", () => {
-            filterWorkouts();
-        });
+            sortOptions.addEventListener("change", () => {
+                sortContacts();
+                filterWorkouts(); // Reapply filters after sorting
+            });
 
-        categoryFilter.addEventListener("change", () => {
-            filterWorkouts();
-        });
-
-        sortOptions.addEventListener("change", () => {
+            // Initial render
             sortContacts();
-            filterWorkouts(); // Reapply filters after sorting
+            filterWorkouts();
         });
-
-        // Initial render
-        sortContacts();
-        filterWorkouts();
-    });
-</script>
+    </script>
 {% endblock %}
