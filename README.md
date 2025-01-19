@@ -1,4 +1,4 @@
-### ⚙️ Setup (Linux only)
+### ⚙️ Setup
 
 Clone the repository into a workdir.
 
