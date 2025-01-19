@@ -35,11 +35,11 @@
                                         <!-- if contact has labels display this block -->
                                         <div class="book-labels">
                                             {% get_contact_labels contact as con_labels %}
-                                            {% if con_labels.count > 1 %}
+                                            {% if con_labels.count > 2 %}
                                                 <span class="book-label"
                                                       style="background-color: {{ con_labels.first.color }};">{{ con_labels.first }}</span>
                                                 <span class="book-label"
-                                                      style="background-color: #646464;"> +2 more labels</span>
+                                                      style="background-color: #646464;"> +{{ con_labels.count|add:"-1" }} more labels</span>
                                             {% else %}
                                                 {% for label in con_labels %}
                                                     <span class="book-label"

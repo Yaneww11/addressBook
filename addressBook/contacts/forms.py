@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import Contact
 
 
@@ -44,6 +46,15 @@ class ContactBaseForm(forms.ModelForm):
             'labels': forms.SelectMultiple(),
             'image': forms.ClearableFileInput()
         }
+
+    def clean_labels(self):
+        labels = self.cleaned_data.get('labels')
+
+        # Check if the number of labels exceeds the limit
+        if labels.count() > 5:
+            raise ValidationError("A contact can have a maximum of 5 labels.")
+
+        return labels
 
 
 class ContactCreateForm(ContactBaseForm):
