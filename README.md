@@ -24,16 +24,16 @@ This project includes functionality to import and export contact data to and fro
 
 In root folder you can run this command.
 
-<b>Import Contacts</b>:
+   - <b>Import Contacts</b>:
+   
+   python manage.py import_contacts
+   
+   This command will process the specified import file and save the contact data into the database.
 
-python manage.py import_contacts
-
-This command will process the specified import file and save the contact data into the database.
-
-<b>Export Contacts</b>:
-
-To export contacts, run the following command:
-
-python manage.py export_contacts
-
-This command will generate an export file containing all the contact data currently stored in the database.
+   - <b>Export Contacts</b>:
+   
+   To export contacts, run the following command:
+   
+   python manage.py export_contacts
+   
+   This command will generate an export file containing all the contact data currently stored in the database.
