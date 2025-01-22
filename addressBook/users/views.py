@@ -129,3 +129,15 @@ class UserProfileEditView(LoginRequiredMixin, UpdateView):
         profile.save()
 
         return super().form_valid(form)
+
+class UserProfileDeleteView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/delete-profile.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        user.is_active = False
+        user.email = f'{user.email}_deleted'
+        user.username = f'{user.username}_deleted'
+        user.save()
+        logout(request)
+        return redirect('home')
