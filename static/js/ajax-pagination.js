@@ -5,21 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const contactsContainer = document.getElementById("contacts-container");
     const paginatorContainer = document.getElementById("paginator-container");
 
+    let currentParams = new URLSearchParams(window.location.search); // Maintain current filter state
+
     // Function to send AJAX requests to the backend
     const updateContacts = () => {
-        const searchTerm = searchInput.value;
-        const selectedCategory = categoryFilter.value;
-        const sortOption = sortOptions.value;
+        currentParams.set("search", searchInput.value);
+        currentParams.set("category", categoryFilter.value);
+        currentParams.set("sort", sortOptions.value);
 
-        // Create query parameters
-        const params = new URLSearchParams({
-            search: searchTerm,
-            category: selectedCategory,
-            sort: sortOption,
-        });
+        const filterUrl = `?${currentParams.toString()}`;
 
-        // Send the AJAX request
-        fetch(`?${params.toString()}`, {
+        fetch(filterUrl, {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
             },
@@ -31,7 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     contactsContainer.innerHTML = data.contacts_html;
                     paginatorContainer.innerHTML = data.paginator_html;
 
-                    // Update pagination links
+                    // Update the URL to reflect the new filter state
+                    window.history.pushState({}, "", filterUrl);
+
+                    // Reinitialize pagination links
                     setupPaginationLinks();
                 }
             })
@@ -49,10 +48,17 @@ document.addEventListener("DOMContentLoaded", () => {
         paginatorLinks.forEach(link => {
             link.addEventListener("click", event => {
                 event.preventDefault();
-                const url = link.getAttribute("href");
-                if (url) {
-                    fetchPage(url);
-                }
+
+                const pageUrl = new URL(link.href);
+                const pageParams = new URLSearchParams(pageUrl.search);
+
+                // Merge current filters with pagination parameters
+                currentParams.forEach((value, key) => {
+                    pageParams.set(key, value);
+                });
+
+                const fullUrl = `${pageUrl.pathname}?${pageParams.toString()}`;
+                fetchPage(fullUrl);
             });
         });
     };
@@ -67,9 +73,14 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(data => {
                 if (data.contacts_html && data.paginator_html) {
+                    // Update the DOM with the new data
                     contactsContainer.innerHTML = data.contacts_html;
                     paginatorContainer.innerHTML = data.paginator_html;
 
+                    // Update the URL to reflect the current page and filters
+                    window.history.pushState({}, "", url);
+
+                    // Reinitialize pagination links
                     setupPaginationLinks();
                 }
             })
