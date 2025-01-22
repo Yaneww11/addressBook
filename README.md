@@ -22,13 +22,13 @@ Clone the repository into a workdir.
 
 This project includes functionality to import and export contact data to and from the database. 
 
-In root folder you can run this command.
+In root folder you can run this command. 
 
    - <b>Import Contacts</b>:
    
    python manage.py import_contacts
    
-   This command will process the specified import file and save the contact data into the database.
+   This command will process the specified import file (path: media/import_files/importContacts.xml) and save the contact data into the database.
 
    - <b>Export Contacts</b>:
    
@@ -36,4 +36,4 @@ In root folder you can run this command.
    
    python manage.py export_contacts
    
-   This command will generate an export file containing all the contact data currently stored in the database.
+   This command will generate an export file (path: media/export_files/exportContacts.xml) containing all the contact data currently stored in the database.
