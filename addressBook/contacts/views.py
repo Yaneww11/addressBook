@@ -23,17 +23,14 @@ class ContactListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = Contact.objects.filter(user=self.request.user)
 
-        # Apply search
         search = self.request.GET.get("search", "").strip()
         if search:
             queryset = queryset.filter(first_name__icontains=search) | queryset.filter(last_name__icontains=search)
 
-        # Apply category filter
         category = self.request.GET.get("category", "").strip()
         if category and category != "all":
             queryset = queryset.filter(labels__name__iexact=category)
 
-        # Apply sorting
         sort = self.request.GET.get("sort", "a-z")
         if sort == "a-z":
             queryset = queryset.order_by("first_name", "last_name")

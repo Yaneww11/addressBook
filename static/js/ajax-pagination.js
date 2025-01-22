@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     contactsContainer.innerHTML = data.contacts_html;
                     paginatorContainer.innerHTML = data.paginator_html;
 
-                    // Reattach pagination links
                     setupPaginationLinks();
                 }
             })
