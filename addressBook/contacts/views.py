@@ -18,7 +18,7 @@ class ContactListView(LoginRequiredMixin, ListView):
     template_name = "address-book.html"
     context_object_name = "contacts"
 
-    paginate_by = 2  # Pagination is currently not working as intended
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = Contact.objects.filter(user=self.request.user)
