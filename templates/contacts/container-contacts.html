@@ -1,0 +1,36 @@
+{% load contact_tags %}
+
+<!-- Loop through contacts and display each one -->
+<ul class="contact-list">
+    {% for contact in contacts %}
+        <li class="contact-item">
+            <a href="{% url 'detail-contact' pk=contact.pk %}">
+                <div class="contact-card">
+                    <div class="contact-left">
+                        <img src="{{ contact.image.url }}" alt="Contact Picture" class="contact-picture">
+                        <div class="contact-name-labels">
+                            <h2>{{ contact }}</h2>
+                            <div class="book-labels">
+                                <!-- Fetch and display contact labels -->
+                                {% get_contact_labels contact as con_labels %}
+                                {% if con_labels.count > 2 %}
+                                    <span class="book-label"
+                                          style="background-color: {{ con_labels.first.color }};">{{ con_labels.first }}</span>
+                                    <span class="book-label"
+                                          style="background-color: #646464;"> +{{ con_labels.count|add:"-1" }} more labels</span>
+                                {% else %}
+                                    {% for label in con_labels %}
+                                        <span class="book-label"
+                                              style="background-color: {{ label.color }};">{{ label }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="contact-phone">{{ contact.phone_number }}</p>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+</ul>

@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
@@ -16,11 +18,29 @@ class ContactListView(LoginRequiredMixin, ListView):
     template_name = "address-book.html"
     context_object_name = "contacts"
 
-    # paginate_by = 2  # Pagination is currently not working as intended
+    paginate_by = 2  # Pagination is currently not working as intended
 
     def get_queryset(self):
-        # Only return contacts belonging to the logged-in user
-        return Contact.objects.filter(user=self.request.user)
+        queryset = Contact.objects.filter(user=self.request.user)
+
+        # Apply search
+        search = self.request.GET.get("search", "").strip()
+        if search:
+            queryset = queryset.filter(first_name__icontains=search) | queryset.filter(last_name__icontains=search)
+
+        # Apply category filter
+        category = self.request.GET.get("category", "").strip()
+        if category and category != "all":
+            queryset = queryset.filter(labels__name__iexact=category)
+
+        # Apply sorting
+        sort = self.request.GET.get("sort", "a-z")
+        if sort == "a-z":
+            queryset = queryset.order_by("first_name", "last_name")
+        elif sort == "z-a":
+            queryset = queryset.order_by("-first_name", "-last_name")
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         # Add user-specific labels to the context for filtering contacts
@@ -28,6 +48,16 @@ class ContactListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['user_labels'] = user.labels.all()
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if AJAX
+            contacts_html = render_to_string('contacts/container-contacts.html', context, request=self.request)
+            paginator_html = render_to_string('common/paginator.html', context, request=self.request)
+            return JsonResponse({
+                'contacts_html': contacts_html,
+                'paginator_html': paginator_html
+            })
+        return super().render_to_response(context, **response_kwargs)
 
 
 # View for creating a new contact
@@ -55,6 +85,11 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
         context['labels'] = Label.objects.all()
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the user to the form
+        return kwargs
+
 
 # View for editing an existing contact
 class ContactEditView(LoginRequiredMixin, UpdateView):
@@ -73,6 +108,11 @@ class ContactEditView(LoginRequiredMixin, UpdateView):
 
         # Proceed with the original dispatch if the user owns the contact
         return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the user to the form
+        return kwargs
 
     def form_valid(self, form):
         # Associate the updated contact with the logged-in user

@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from .models import Contact
+from ..labels.models import Label
 
 
 class ContactBaseForm(forms.ModelForm):
@@ -9,9 +10,9 @@ class ContactBaseForm(forms.ModelForm):
         model = Contact
 
         fields = [
-            'first_name', 'last_name', 'phone_number',
+            'first_name', 'last_name', 'image', 'phone_number',
             'company_name', 'address', 'company_phone', 'email',
-            'fax_number', 'comment', 'labels', 'image'
+            'fax_number', 'comment', 'labels'
         ]
 
         required = [
@@ -51,7 +52,6 @@ class ContactBaseForm(forms.ModelForm):
             'image': forms.ClearableFileInput()
         }
 
-    # Custom validation method for the 'labels' field
     def clean_labels(self):
         labels = self.cleaned_data.get('labels')
 
@@ -60,7 +60,18 @@ class ContactBaseForm(forms.ModelForm):
 
         return labels
 
+    def __init__(self, *args, **kwargs):
+        # Extract the user from the kwargs
+        self.user = kwargs.pop('user', None)  # Pop the user from the kwargs
+        super().__init__(*args, **kwargs)
+
+        if self.user:
+            # Filter the 'labels' queryset to only show labels for the current user
+            self.fields['labels'].queryset = Label.objects.filter(user=self.user)
+
 
 # ContactCreateForm inherits ContactBaseForm and can be customized further if needed
 class ContactCreateForm(ContactBaseForm):
     pass
+
+
